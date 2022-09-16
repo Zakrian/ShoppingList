@@ -1,25 +1,47 @@
-const main = document.querySelector('.main');
-const list = document.querySelector('.list');
-const btnReset = document.querySelector('.btn-reset');
-const btnAdd = document.querySelector('.btn-add');
-const liDelete = document.querySelectorAll('.delete');
-const input = document.querySelector('.input');
-let modal = document.querySelector('.modal');
-const deleteAllList = document.querySelector('.deleteAll');
-const deleteMarkList = document.querySelector('.deleteMark');
+const main = document.querySelector('.main'),
+  list = document.querySelector('.list'),
+  btnReset = document.querySelector('.btn-reset'),
+  btnAdd = document.querySelector('.btn-add'),
+  liDelete = document.querySelectorAll('.delete'),
+  input = document.querySelector('.input'),
+  modal = document.querySelector('.modal');
 
 function addShop() {
   let h2 = document.createElement('h2');
   h2.innerHTML = '- ' + input.value;
 
-  h2.addEventListener('click', function() {
+  h2.addEventListener('click', function () {
     h2.classList.toggle('delete');
   });
 
-  if(input.value !== '') {
+  if (input.value !== '') {
     list.insertAdjacentElement('beforeend', h2);
   }
   input.value = '';
+  addDotsIfItemSoLong();
+
+}
+
+function deleteAll() {
+  list.innerHTML = '';
+}
+
+function deleteMark() {
+  let markedItem = document.querySelectorAll('.delete');
+
+  markedItem.forEach(item => {
+    item.remove();
+  });
+}
+
+function addDotsIfItemSoLong() {
+  let h2 = document.querySelectorAll('h2');
+
+  h2.forEach(item => {
+    if (item.innerHTML.length > 20) {
+      item.innerHTML = `${item.innerHTML.slice(0, 20)}...`;
+    }
+  });
 }
 
 btnAdd.addEventListener('click', addShop);
@@ -29,20 +51,16 @@ input.addEventListener('keydown', function (e) {
   }
 });
 
-btnReset.addEventListener('click', function(e) {
+btnReset.addEventListener('click', function (e) {
   modal.classList.toggle('modalOpen');
 });
 
+modal.addEventListener('click', (e) => {
+  let target = e.target;
 
-function deleteAll() {
-  deleteAllList.addEventListener('click', function() {
-    list.innerHTML = '';
-  });
-}
-
-function deleteMark() {
-  let removeEl = document.querySelectorAll('.delete');
-  deleteMarkList.addEventListener('click', function() {
-    removeEl.value = '';
-  });
-}
+  if (target && target.classList.contains('deleteAll')) {
+    deleteAll();
+  } else if (target && target.classList.contains('deleteMark')) {
+    deleteMark();
+  }
+});
