@@ -1,66 +1,72 @@
-const main = document.querySelector('.main'),
-  list = document.querySelector('.list'),
-  btnReset = document.querySelector('.btn-reset'),
-  btnAdd = document.querySelector('.btn-add'),
-  liDelete = document.querySelectorAll('.delete'),
-  input = document.querySelector('.input'),
-  modal = document.querySelector('.modal');
+const inner = document.querySelector('.inner'),
+  modal = document.querySelector('.modal'),
+  form = document.querySelector('.form'),
+  itemsList = document.querySelector('.list'),
+  items = JSON.parse(localStorage.getItem('items')) || [];
 
-function addShop() {
-  let h2 = document.createElement('h2');
-  h2.innerHTML = '- ' + input.value;
-
-  h2.addEventListener('click', function () {
-    h2.classList.toggle('delete');
-  });
-
-  if (input.value !== '') {
-    list.insertAdjacentElement('beforeend', h2);
-  }
-  input.value = '';
-  addDotsIfItemSoLong();
-
+function toggleModal() {
+  modal.classList.toggle('modalOpen');
 }
 
-function deleteAll() {
-  list.innerHTML = '';
-}
-
-function deleteMark() {
-  let markedItem = document.querySelectorAll('.delete');
-
-  markedItem.forEach(item => {
-    item.remove();
-  });
-}
-
-function addDotsIfItemSoLong() {
-  let h2 = document.querySelectorAll('h2');
-
-  h2.forEach(item => {
-    if (item.innerHTML.length > 20) {
-      item.innerHTML = `${item.innerHTML.slice(0, 20)}...`;
+function toggleMakOnItem(target) {
+  const items = document.querySelectorAll('.list-item');
+  items.forEach((item) => {
+    if (item === target) {
+      item.classList.toggle('mark-on');
     }
   });
 }
 
-btnAdd.addEventListener('click', addShop);
-input.addEventListener('keydown', function (e) {
-  if (e.key == 'Enter') {
-    addShop();
+function addItem(e) {
+  e.preventDefault();
+  const value = e.target.item.value;
+  const item = {
+    text: value,
+    checked: false
+  };
+
+  items.push(item);
+  localStorage.setItem('items', JSON.stringify(items));
+  displayItems(items, itemsList);
+  form.reset();
+}
+
+function displayItems(arr, list) {
+  list.innerHTML = arr.map((item, i) => {
+    return `
+      <li class="list-item">
+        <input type="checkbox" name="checkbox-${i}" class="list-item-checkbox visually-hidden" id="checkbox-${i}" data-index="${i}" ${item.checked ? 'checked' : ''}>
+        <label for="checkbox-${i}" class="list-item-label">${item.text}</label>
+      </li>
+    `;
+  }).join('');
+}
+
+function toggleClick(e) {
+  if (!e.target.matches('input')) return;
+  const element = e.target.dataset.index;
+  items[element].checked = !items[element].checked;
+  localStorage.setItem('items', JSON.stringify(items));
+  displayItems(items, itemsList);
+  console.log(items[element].checked);
+}
+
+displayItems(items, itemsList);
+
+form.addEventListener('submit', addItem);
+inner.addEventListener('click', (e) => {
+  const target = e.target;
+
+  if (target.classList.contains('btn-reset')) {
+    toggleModal();
   }
-});
 
-btnReset.addEventListener('click', function (e) {
-  modal.classList.toggle('modalOpen');
-});
-
-modal.addEventListener('click', (e) => {
-  let target = e.target;
-
-  if (target && target.classList.contains('deleteAll')) {
-    deleteAll();
-  } else if (target && target.classList.contains('deleteMark')) {
-    deleteMark();
+  if (target.classList.contains('list-item')) {
+    toggleMakOnItem(target);
   }
+
 });
+modal.addEventListener('click', (e) {
+  
+})
+itemsList.addEventListener('click', toggleClick);

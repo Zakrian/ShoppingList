@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>ShopList</title>
+  <title>Список покупок</title>
 </head>
 
 <body>
@@ -15,18 +16,23 @@
     <div class="container">
       <div class="inner">
         <div class="input-block">
-          <button class="btn btn-reset"><img src="delete.png" alt="cart"></button>
-          <input type="text" placeholder="Нужно купить..." class="input">
-          <button class="btn btn-add">+</button>
+          <button class="btn btn-reset"></button>
+          <form class="form">
+            <input type="text" name="item" placeholder="Нужно купить..." class="input">
+            <input type="submit" value="+" class="btn btn-add"></input>
+          </form>
         </div>
         <div class="modal">
-          <h6 class="deleteBtn deleteAll">Удалить всё</h6>
-          <h6 class="deleteBtn deleteMark">Удалить вычеркнутые</h6>
+          <button class="btn deleteBtn deleteAll">Удалить всё</button>
+          <button class="btn deleteBtn deleteMark">Удалить вычеркнутые</button>
         </div>
         <div class="list">
+          <!-- <li class="list-item">
+            <input type="checkbox" name="checkbox" class="list-item-checkbox visually-hidden" id="checkbox">
+            <label for="checkbox" class="list-item-label">Молоко</label>
+          </li> -->
         </div>
       </div>
-
 
   </main>
   <script src="script.js"></script>

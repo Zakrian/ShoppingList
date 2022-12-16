@@ -14,79 +14,125 @@ body {
   font-size: calc(20px + 10 * (100vw / 600));
   line-height: 1.5;
   color: black;
-  background-image: url(./phone.jpg);
-  background-size: 100% 50%;
-  background-position: 0 0;
-  background-repeat: repeat;
+  background: url('/phone.jpg') center / cover repeat;
 }
 
 .main {
   width: 100vw;
   height: 100vh;
 }
-
 .body {
   width: 100%;
   height: 100%;
 }
-
 .container {
-  max-width: 630px;
+  max-width: 330px;
   height: 100vh;
   margin: 0 auto;
   padding: 0 15px;
 }
-
 .inner {
-  width: 350px;
+  width: 100%;
   margin: 0 auto;
   padding-top: 50px;
+}
+.list-item {
+  position: relative;
+  padding-left: 15px;
+  cursor: pointer;
+  list-style-type: none;
+}
+.list-item > * {
+  cursor: pointer;
+  user-select: none;
+}
+.list-item-label {
+  position: relative;
+}
+.list-item-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5%;
+  width: 110%;
+  height: 2px;
+  background-color: #000;
+  border-radius: 2px;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: all .2s ease;
+}
+.list-item-label::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -15px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #000;
+  transform: translateY(-50%);
+}
+.list-item-checkbox:checked+.list-item-label::after{
+  transform: scaleX(1);
 }
 
 .form {
   display: flex;
-  width: 100%;
+  width: 240px;
 }
-
 .input {
   width: 300px;
   box-shadow: inset 0px 0px 10px -5px #000;
   padding: 0 5px;
   outline: none;
 }
-
 .input-block {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .btn {
   width: 50px;
+  height: 26px;
   font-size: calc(14px + 7 * (100vw / 600));
   cursor: pointer;
   background-color: lightblue;
   transition: all .3s ease 0s;
 }
-
-.btn-reset {
+.btn-reset, .btn-add {
   position: relative;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  display: block;
+  max-width: 50px;
+  width: 100%;
 }
-
-.btn-reset img {
+.btn-reset {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.btn-add {
+  font-size: 24px;
+  line-height: 1;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.btn-reset::after, .btn-add::after {
+  content: '';
   position: absolute;
   top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
   transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
 }
-
-.btn-add {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+.btn-reset::after {
+  left: 50%;
+  background: url('delete.svg') center / contain no-repeat;
 }
-
+.btn-add::after {
+  background: url('add.svg') center / contain no-repeat;
+}
 .btn:hover {
   background-color: rgb(127, 180, 197);
   box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
@@ -103,28 +149,38 @@ body {
   font-style: italic;
   font-size: calc(18px + 10 * (100vw / 600));
 }
-
-h2 {
+/* h2 {
+  position: relative;
+  padding: 0px 0px 0px 20px;
   cursor: pointer;
   font-size: calc(16px + 12 * (100vw / 600));
   text-decoration: none;
 }
-
-.item:not(:last-child) {
-  margin-bottom: 25px;
+h2:not(:last-child) {
+  margin-bottom: 5px;
 }
-
-.delete {
+h2::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 2px;
+  background-color: black;
+}
+.mark-on {
   text-decoration: line-through;
-}
+} */
 
 .modal {
   position: absolute;
-  background-color: rgba(173, 216, 230, .9);
+  z-index: 5;
+  background-color: rgba(173, 216, 230, 1);
   width: 230px;
-  margin-top: 10px;
+  margin-top: 4px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 4px;
   font-size: calc(16px + 2 * (100vw / 600));
   cursor: pointer;
   transition: all .3s ease 0s;
@@ -134,13 +190,17 @@ h2 {
   opacity: 0;
   visibility: hidden;
 }
+.modal button {
+  display: block;
+  background-color: inherit;
+}
 .modalOpen {
   transform: scaleY(1);
   opacity: 1;
   visibility: visible;
 }
 .deleteBtn {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   box-shadow: inset 0px 0px 10px -3px #000;
   border-radius: 10px;
@@ -156,31 +216,14 @@ h2 {
 .deleteAll {
   margin-bottom: 10px;
 }
-.deleteMark {
-}
 
-
-@media (max-width: 389.99px) {
-  .inner {
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 50px;
-  }
-
-  .bottom {
-    margin-top: 20px;
-  }
-
-  h2:not(:last-child) {
-    margin-bottom: 15px;
-  }
-
-  .modal {
-    background-color: rgba(173, 216, 230, .8);
-    width: 90%;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: calc(16px + 2 * (100vw / 600));
-    cursor: pointer;
-  }
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	clip: rect(0 0 0 0);
+	overflow: hidden;
 }
