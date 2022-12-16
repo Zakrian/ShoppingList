@@ -14,7 +14,7 @@ body {
   font-size: calc(20px + 10 * (100vw / 600));
   line-height: 1.5;
   color: black;
-  background: url('/phone.jpg') center / cover repeat;
+  background: url('phone.jpg') center / cover repeat;
 }
 
 .main {

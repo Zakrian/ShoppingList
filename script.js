@@ -66,7 +66,7 @@ inner.addEventListener('click', (e) => {
   }
 
 });
-modal.addEventListener('click', (e) {
-  
-})
+// modal.addEventListener('click', (e) {
+
+// })
 itemsList.addEventListener('click', toggleClick);
