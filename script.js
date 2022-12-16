@@ -1,12 +1,7 @@
 const inner = document.querySelector('.inner'),
-  modal = document.querySelector('.modal'),
   form = document.querySelector('.form'),
   itemsList = document.querySelector('.list'),
   items = JSON.parse(localStorage.getItem('items')) || [];
-
-function toggleModal() {
-  modal.classList.toggle('modalOpen');
-}
 
 function toggleMakOnItem(target) {
   const items = document.querySelectorAll('.list-item');
@@ -30,7 +25,6 @@ function addItem(e) {
   displayItems(items, itemsList);
   form.reset();
 }
-
 function displayItems(arr, list) {
   list.innerHTML = arr.map((item, i) => {
     return `
@@ -41,7 +35,6 @@ function displayItems(arr, list) {
     `;
   }).join('');
 }
-
 function toggleClick(e) {
   if (!e.target.matches('input')) return;
   const element = e.target.dataset.index;
@@ -51,14 +44,17 @@ function toggleClick(e) {
   console.log(items[element].checked);
 }
 
-displayItems(items, itemsList);
+function deleteItems() {
+  localStorage.clear();
+}
 
 form.addEventListener('submit', addItem);
 inner.addEventListener('click', (e) => {
   const target = e.target;
 
   if (target.classList.contains('btn-reset')) {
-    toggleModal();
+    deleteItems();
+    itemsList.innerHTML = '';
   }
 
   if (target.classList.contains('list-item')) {
@@ -66,7 +62,5 @@ inner.addEventListener('click', (e) => {
   }
 
 });
-// modal.addEventListener('click', (e) {
-
-// })
 itemsList.addEventListener('click', toggleClick);
+displayItems(items, itemsList);
