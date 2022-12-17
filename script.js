@@ -20,6 +20,8 @@ function addItem(e) {
     checked: false
   };
 
+  if (value === '') return;
+
   items.push(item);
   localStorage.setItem('items', JSON.stringify(items));
   displayItems(items, itemsList);
@@ -46,6 +48,8 @@ function toggleClick(e) {
 
 function deleteItems() {
   localStorage.clear();
+  itemsList.innerHTML = '';
+  items.length = 0;
 }
 
 form.addEventListener('submit', addItem);
@@ -54,7 +58,6 @@ inner.addEventListener('click', (e) => {
 
   if (target.classList.contains('btn-reset')) {
     deleteItems();
-    itemsList.innerHTML = '';
   }
 
   if (target.classList.contains('list-item')) {
